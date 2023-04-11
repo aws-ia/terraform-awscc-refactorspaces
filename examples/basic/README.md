@@ -17,7 +17,7 @@ This example would deploy the following:
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.0.0, < 5.0.0 |
-| <a name="requirement_awscc"></a> [awscc](#requirement\_awscc) | >= 0.35.0 |
+| <a name="requirement_awscc"></a> [awscc](#requirement\_awscc) | >= 0.49.0 |
 
 ## Providers
 

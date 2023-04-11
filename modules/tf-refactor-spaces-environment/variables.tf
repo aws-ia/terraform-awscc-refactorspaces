@@ -9,6 +9,12 @@ variable "environment_description" {
   default     = null
 }
 
+variable "provision_network_bridge" {
+  type        = bool
+  description = "When `true` AWS Migration Hub Refactor Spaces creates and manages an AWS Transit Gateway to establish cross account network connectivity for this environment. Default: false"
+  default     = false
+}
+
 variable "shared_to_principals" {
   description = <<-EOF
   An optional list of AWS principals to share the AWS Migration Hub Refactor Spaces environment.

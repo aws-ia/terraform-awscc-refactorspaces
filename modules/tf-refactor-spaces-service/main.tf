@@ -2,7 +2,7 @@
   AWS Migration Hub Refactor Spaces : Service
   Create a AWS Migration Hub Refactor Spaces service
 */
-resource "awscc_refactorspaces_service" "this" {
+resource "awscc_refactorspaces_service" "current" {
   application_identifier = var.application_id
   environment_identifier = var.environment_id
   name                   = var.name
@@ -30,7 +30,7 @@ resource "awscc_refactorspaces_route" "default" {
 
   application_identifier = var.application_id
   environment_identifier = var.environment_id
-  service_identifier     = awscc_refactorspaces_service.this.service_identifier
+  service_identifier     = awscc_refactorspaces_service.current.service_identifier
   route_type             = "DEFAULT"
 
   default_route = {
@@ -39,7 +39,7 @@ resource "awscc_refactorspaces_route" "default" {
 
   # Create an explict dependency to ensure correct ordering during create/delete/replace
   depends_on = [
-    awscc_refactorspaces_service.this
+    awscc_refactorspaces_service.current
   ]
 
   # Ignore changes to the Service Identifier after initial creation
@@ -50,7 +50,7 @@ resource "awscc_refactorspaces_route" "default" {
 
     # Replace if the upstream service needs to be replaced
     replace_triggered_by = [
-      awscc_refactorspaces_service.this.service_identifier
+      awscc_refactorspaces_service.current.service_identifier
     ]
   }
 }
@@ -64,7 +64,7 @@ resource "awscc_refactorspaces_route" "non_default" {
 
   application_identifier = var.application_id
   environment_identifier = var.environment_id
-  service_identifier     = awscc_refactorspaces_service.this.service_identifier
+  service_identifier     = awscc_refactorspaces_service.current.service_identifier
   route_type             = "URI_PATH"
 
   uri_path_route = {
@@ -76,7 +76,7 @@ resource "awscc_refactorspaces_route" "non_default" {
 
   # The default route must be the first type created
   depends_on = [
-    awscc_refactorspaces_service.this,
+    awscc_refactorspaces_service.current,
     awscc_refactorspaces_route.default
   ]
 
@@ -88,7 +88,7 @@ resource "awscc_refactorspaces_route" "non_default" {
 
     # Replace if the upstream service needs to be replaced
     replace_triggered_by = [
-      awscc_refactorspaces_service.this.service_identifier
+      awscc_refactorspaces_service.current.service_identifier
     ]
   }
 }

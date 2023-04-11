@@ -1,5 +1,5 @@
 output "service" {
-  value       = awscc_refactorspaces_service.this
+  value       = awscc_refactorspaces_service.current
   description = "AWS Migration Hub Refactor Spaces service resource attributes. Full output of [`awscc_refactorspaces_service`](https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_service)"
 }
 

@@ -1,5 +1,5 @@
 output "environment" {
-  value       = awscc_refactorspaces_environment.this
+  value       = awscc_refactorspaces_environment.current
   description = "AWS Migration Hub Refactor Spaces environment resource attributes. Full output of [`awscc_refactorspaces_environment`](https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_environment)"
 }
 

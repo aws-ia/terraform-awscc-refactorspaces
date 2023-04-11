@@ -3,6 +3,7 @@
 # per use-case. The code below should not be copied directly but referenced in order
 # to build your own root module that invokes this module
 #####################################################################################
+
 module "refactor_spaces_environment" {
   # source  = "aws-ia/refactor-spaces/aws"
   # version = ">= 1.0.0"
@@ -13,9 +14,10 @@ module "refactor_spaces_environment" {
     awscc = awscc.central-mgmt
   }
 
-  environment_name        = "Unicorns"
-  environment_description = "AWS Migration Hub Refactor Spaces environment for Unicorn Enterprises."
-  shared_to_principals    = var.unistore_modernized_principals
+  environment_name         = "Unicorns"
+  environment_description  = "AWS Migration Hub Refactor Spaces environment for Unicorn Enterprises."
+  provision_network_bridge = true
+  shared_to_principals     = var.unistore_modernized_principals
 }
 
 /*
@@ -23,7 +25,7 @@ module "refactor_spaces_environment" {
 */
 data "awscc_refactorspaces_environment" "unicorns" {
   provider = awscc.central-mgmt
-  id       = module.refactor_spaces_environment.environment_id
+  id       = module.refactor_spaces_environment.environment.environment_identifier
 }
 
 /*

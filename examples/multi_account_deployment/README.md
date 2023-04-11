@@ -9,6 +9,7 @@ This example would deploy the following:
 * An Amazon VPC "vpc-application-example-proxy" with IPv4 CIDR 192.168.10.0/24 and two 27-bit private subnets
 * A AWS Migration Hub Refactor Spaces environment named "unicorn-dev" (in the `central-mgmt` account)
 * A AWS Migration Hub Refactor Spaces application named "Unistore" (in the `unistore-frontend` account)
+* An AWS Transit Gateway is provisioned and managed by AWS Refactor Spaces for managing cross-account network connectivity
 * A AWS Migration Hub Refactor Spaces service "Unistore-legacy" pointing to a monolithic application deployed on Amazon EC2/ECS/EKS or similar services running in a VPC with a DNS name `http://legacy-unicorns.example.com/` acting as the default route (in the `unistore-frontend` account)
 * A AWS Migration Hub Refactor Spaces service "Unistore-AddToCartService" pointing at a microservice deployed as AWS Lambda Function with the ARN `arn:aws:lambda:us-east-1:999999999999:function:AddToCart`. (in the `unistore-userservice` account)
 * A route that sends `POST` and `GET` requests to `/unicorns/basket` to the AWS Lambda function (in the `unistore-userservice` account)
@@ -19,14 +20,14 @@ This example would deploy the following:
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.0.0, < 5.0.0 |
-| <a name="requirement_awscc"></a> [awscc](#requirement\_awscc) | >= 0.35.0 |
+| <a name="requirement_awscc"></a> [awscc](#requirement\_awscc) | >= 0.49.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_awscc.central-mgmt"></a> [awscc.central-mgmt](#provider\_awscc.central-mgmt) | >= 0.35.0 |
-| <a name="provider_awscc.unistore-frontend"></a> [awscc.unistore-frontend](#provider\_awscc.unistore-frontend) | >= 0.35.0 |
+| <a name="provider_awscc.central-mgmt"></a> [awscc.central-mgmt](#provider\_awscc.central-mgmt) | >= 0.49.0 |
+| <a name="provider_awscc.unistore-frontend"></a> [awscc.unistore-frontend](#provider\_awscc.unistore-frontend) | >= 0.49.0 |
 
 ## Modules
 

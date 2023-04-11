@@ -5,11 +5,12 @@
 module "refactor_spaces_environment" {
   count = local.create_environment ? 1 : 0
 
-  source                  = "./modules/tf-refactor-spaces-environment"
-  environment_name        = var.environment_name
-  environment_description = var.environment_description
-  shared_to_principals    = var.shared_to_principals
-  resource_tags           = local.tags
+  source                   = "./modules/tf-refactor-spaces-environment"
+  environment_name         = var.environment_name
+  environment_description  = var.environment_description
+  provision_network_bridge = var.provision_network_bridge
+  shared_to_principals     = var.shared_to_principals
+  resource_tags            = local.tags
 }
 
 # Search for existing AWS Migration Hub Refactor Spaces environment with var.environment_id if not creating

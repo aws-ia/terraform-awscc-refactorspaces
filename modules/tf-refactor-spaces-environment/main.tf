@@ -2,10 +2,10 @@
     AWS Migration Hub Refactor Spaces : Environment
     Create a AWS Migration Hub Refactor Spaces Environment
 */
-resource "awscc_refactorspaces_environment" "this" {
+resource "awscc_refactorspaces_environment" "current" {
   name                = var.environment_name
   description         = var.environment_description
-  network_fabric_type = "TRANSIT_GATEWAY"
+  network_fabric_type = var.provision_network_bridge ? "TRANSIT_GATEWAY" : "NONE"
   tags = [
     for tag_key, tag_value in local.tags : {
       key   = tag_key
@@ -35,7 +35,7 @@ resource "aws_ram_resource_share" "refactor_spaces_environment" {
 }
 
 resource "aws_ram_resource_association" "refactor_spaces_environment" {
-  resource_arn       = awscc_refactorspaces_environment.this.arn
+  resource_arn       = awscc_refactorspaces_environment.current.arn
   resource_share_arn = aws_ram_resource_share.refactor_spaces_environment.arn
 }
 

@@ -10,7 +10,7 @@ data "awscc_ec2_vpc" "application_proxy_vpc" {
   AWS Migration Hub Refactor Spaces : Application
   Create a AWS Migration Hub Refactor Spaces Application (Strangler-Fig-Proxy)
 */
-resource "awscc_refactorspaces_application" "this" {
+resource "awscc_refactorspaces_application" "current" {
   name                   = var.application_name
   vpc_id                 = data.awscc_ec2_vpc.application_proxy_vpc.id
   proxy_type             = "API_GATEWAY"

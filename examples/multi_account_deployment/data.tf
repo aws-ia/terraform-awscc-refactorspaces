@@ -10,10 +10,10 @@ locals {
   refactor_spaces_application_id = data.awscc_refactorspaces_application.unistore.application_identifier
 
   # Dynamically add refactor-spaces:environment-id tag if Refactor Spaces is in use to vpc resources to ensure RAM functions correctly
-  vpc_tags = module.refactor_spaces_environment.environment_id != null ? merge(
+  vpc_tags = module.refactor_spaces_environment.environment.environment_identifier != null ? merge(
     local.tags,
     {
-      "refactor-spaces:environment-id" = module.refactor_spaces_environment.environment_id
+      "refactor-spaces:environment-id" = module.refactor_spaces_environment.environment.environment_identifier
     }
   ) : local.tags
 }
