@@ -1,12 +1,12 @@
 variable "environment_name" {
   type        = string
-  description = "The name of the AWS Migration Hub Refactor Spaces environment. Required if creating the environment."
+  description = "The name of the AWS Migration Hub Refactor Spaces environment to create. Ignored if `var.environment_id` for an existing environment is provided."
   default     = null
 }
 
 variable "environment_description" {
   type        = string
-  description = "A description for the AWS Migration Hub Refactor Spaces environment (optional)"
+  description = "A description for the AWS Migration Hub Refactor Spaces environment (optional). Ignored if `var.environment_id` for an existing environment is provided."
   default     = null
 }
 
@@ -18,7 +18,7 @@ variable "provision_network_bridge" {
 
 variable "shared_to_principals" {
   description = <<-EOF
-  An optional list of AWS principals to share the AWS Migration Hub Refactor Spaces environment.
+  An optional list of AWS principals to share the AWS Migration Hub Refactor Spaces environment. Ignored if `var.environment_id` for an existing environment is provided.
 
   Please Note: The setting `Enable sharing with AWS Organizations` under the Resource Access Manager service must be enabled on the master account for your organization in order to share Organizational unit or to the entire Organization. See: https://docs.aws.amazon.com/ram/latest/userguide/getting-started-sharing.html for further details.
   
@@ -40,20 +40,20 @@ EOF
 }
 
 variable "environment_id" {
-  description = "AWS Migration Hub Refactor Spaces Environment Id to use if not creating the Environment."
+  description = "AWS Migration Hub Refactor Spaces Environment Id of an already deployed environment to use to deploy additional applications or services."
   default     = null
   type        = string
 }
 
 variable "application_id" {
-  description = "AWS Migration Hub Refactor Spaces Application id to use if not creating the application."
+  description = "AWS Migration Hub Refactor Spaces Application id of an already deployed application to use to deploy additional services. `var.environment_id` must be specified if this value is not `null`."
   default     = null
   type        = string
 }
 
 variable "applications" {
   description = <<-EOF
-  List of AWS Migration Hub Refactor Spaces applications to create. 
+  List of AWS Migration Hub Refactor Spaces applications to create. Ignored if `var.application_id` for an existing application is provided in the module block.
 
   Properties:
   - `application_name`                       = (Required|string) The name of the application

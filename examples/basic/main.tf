@@ -22,10 +22,9 @@ module "refactor_spaces_app_example_proxy_vpc" {
 }
 
 module "refactor_spaces" {
-  # source  = "aws-ia/refactor-spaces/aws"
-  # version = ">= 1.0.0"
+  source  = "aws-ia/refactor-spaces/aws"
+  version = "0.1.0"
 
-  source                  = "../../"
   environment_name        = "unicorn-dev"
   environment_description = "AWS Migration Hub Refactor Spaces environment for Unicorn Enterprises."
   applications = [

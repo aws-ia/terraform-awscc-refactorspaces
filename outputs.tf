@@ -17,7 +17,7 @@ output "applications" {
       vpc_link_id = "00abcde"
       application = {
         "application_identifier" = "app-BSXbxAPn1r",
-        "arn" = "arn:aws:refactor-spaces:us-east-1:627561228761:environment/env-ZoiD5hlRyz/application/app-BSXbxAPn1r",
+        "arn" = "arn:aws:refactor-spaces:us-east-1:99999999999:environment/env-ZoiD5hlRyz/application/app-BSXbxAPn1r",
         "environment_identifier" = "env-ZoiD5hlRyz",
         ...
               <all attributes of AWS Migration Hub Refactor Spaces Application: https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_application>
