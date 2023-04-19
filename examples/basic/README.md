@@ -3,7 +3,14 @@
 
 The following example deploys AWS Refactor Spaces components within a single AWS Account including the environment, application and all service routes. This is recommended only for proof-of-concept or testing purposes; in Production it is recommended that micro-services are deployed in separate AWS accounts in order to simplify implementation of least-privilege access models for a single application scope, simplify internal resource tracking and charge-back and service limits and quotas.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/aws-ia/terraform-aws-refactorspaces/main/images/aws_migration_hub_refactor_spaces_basic.png" alt="Simple" width="75%">
+</p>
+
+Figure 1. Example configuration of AWS Migration Hub Refactor Spaces with a monolithic application 'Unishop' with the AddToCart strangled as a Lambda microservice.
+
 This example would deploy the following:
+
 * An Amazon VPC "vpc-application-example-proxy" with IPv4 CIDR 192.168.10.0/24 and two 27-bit private subnets
 * A AWS Migration Hub Refactor Spaces environment named "unicorn-dev"
 * A AWS Migration Hub Refactor Spaces application named "Unistore"
@@ -27,7 +34,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_refactor_spaces"></a> [refactor\_spaces](#module\_refactor\_spaces) | ../../ | n/a |
+| <a name="module_refactor_spaces"></a> [refactor\_spaces](#module\_refactor\_spaces) | aws-ia/refactor-spaces/aws | 0.1.0 |
 | <a name="module_refactor_spaces_app_example_proxy_vpc"></a> [refactor\_spaces\_app\_example\_proxy\_vpc](#module\_refactor\_spaces\_app\_example\_proxy\_vpc) | aws-ia/vpc/aws | 3.1.0 |
 
 ## Resources
@@ -42,8 +49,7 @@ No inputs.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_applications"></a> [applications](#output\_applications) | Collection of AWS Migration Hub Refactor Spaces Application managed by or used.  <br><br>Example:<pre>applications = [<br>  {<br>    api_gateway_id = "a0abcdefg1o1"<br>    nlb_arn = "arn:aws:elasticloadbalancing:us-east-1:99999999999:loadbalancer/net/refactor-spaces-nlb-XXXX/YYYY",<br>    vpc_link_id = "00abcde"<br>    application = {<br>      "application_identifier" = "app-BSXbxAPn1r",<br>      "arn" = "arn:aws:refactor-spaces:us-east-1:627561228761:environment/env-ZoiD5hlRyz/application/app-BSXbxAPn1r",<br>      "environment_identifier" = "env-ZoiD5hlRyz",<br>      ...<br>            <all attributes of AWS Migration Hub Refactor Spaces Application: https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_application><br>    }<br>    application_proxy_vpc_attributes = {<br>      <all attributes of the awscc_ec2_vpc data source: https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/data-sources/ec2_vpc><br>    }<br>  }<br>]</pre> |
-| <a name="output_environment_id"></a> [environment\_id](#output\_environment\_id) | The unique identifier for the AWS Migration Hub Refactor Spaces environment. |
+| <a name="output_applications"></a> [applications](#output\_applications) | Collection of AWS Migration Hub Refactor Spaces Application managed by or used.  <br><br>Example:<pre>applications = [<br>  {<br>    api_gateway_id = "a0abcdefg1o1"<br>    nlb_arn = "arn:aws:elasticloadbalancing:us-east-1:99999999999:loadbalancer/net/refactor-spaces-nlb-XXXX/YYYY",<br>    vpc_link_id = "00abcde"<br>    application = {<br>      "application_identifier" = "app-BSXbxAPn1r",<br>      "arn" = "arn:aws:refactor-spaces:us-east-1:99999999999:environment/env-ZoiD5hlRyz/application/app-BSXbxAPn1r",<br>      "environment_identifier" = "env-ZoiD5hlRyz",<br>      ...<br>            <all attributes of AWS Migration Hub Refactor Spaces Application: https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_application><br>    }<br>    application_proxy_vpc_attributes = {<br>      <all attributes of the awscc_ec2_vpc data source: https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/data-sources/ec2_vpc><br>    }<br>  }<br>]</pre> |
+| <a name="output_environment"></a> [environment](#output\_environment) | AWS Migration Hub Refactor Spaces environment resource attributes. Full output of [`awscc_refactorspaces_environment`](https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_environment) |
 | <a name="output_services"></a> [services](#output\_services) | Collection of AWS Migration Hub Refactor Spaces Services and associated routes.  <br><br>Example:<pre>services = [<br>  {<br>    "arn" = "arn:aws:refactor-spaces:us-east-1:99999999999:environment/env-ABC/application/app-XYZ/service/svc-XYZ"<br>    "name" = "legacy",<br>    description = "The legacy monolithic application entry point"<br>    routes = [<br>      {<br>        "arn" = "arn:aws:refactor-spaces:us-east-1:99999999999:environment/env-ABC/application/app-XYZ/route/rte-ABCD"<br>        "route_identifier" = "rte-ABCD"<br>        "route_type": "DEFAULT"<br>        ...<br>        <all attributes of AWS Migration Hub Refactor Spaces Route: https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_route><br>      }<br>    ]<br>    ...<br>    <all attributes of AWS Migration Hub Refactor Spaces Service: https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_service><br>  }<br>]</pre> |
-| <a name="output_transit_gateway_id"></a> [transit\_gateway\_id](#output\_transit\_gateway\_id) | Unique identifier of AWS Transit Gateway for the AWS Migration Hub Refactor Spaces environment. |
 <!-- END_TF_DOCS -->
