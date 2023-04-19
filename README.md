@@ -17,6 +17,9 @@ This module can be used to deploy AWS Migration Hub Refactor Spaces components. 
 - [Outputs](#outputs)
 
 ## Usage
+For example usage, refer to the [examples/](./examples) directory in this repository.
+
+### Basic Example
 The simple example below builds a AWS Migration Hub Refactor Spaces environment with a single application and two services in a single AWS Account. Multi-account deployment examples can be found in [examples/](./examples).
 
 ```
@@ -206,7 +209,6 @@ For resources managed by the `awscc` provider you must add the tags to the resou
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.0.0, < 5.0.0 |
 | <a name="requirement_awscc"></a> [awscc](#requirement\_awscc) | >= 0.49.0 |
 
 ## Providers
