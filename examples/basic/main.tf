@@ -7,7 +7,6 @@
 module "refactor_spaces_app_example_proxy_vpc" {
   source  = "aws-ia/vpc/aws"
   version = "3.1.0"
-  # insert the 3 required variables here
 
   name       = var.proxy_vpc_name
   cidr_block = var.proxy_vpc_cidr_block
