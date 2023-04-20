@@ -22,7 +22,7 @@ module "refactor_spaces_app_example_proxy_vpc" {
 }
 
 module "refactor_spaces" {
-  source  = "aws-ia/refactor-spaces/aws"
+  source  = "aws-ia/refactorspaces/aws"
   version = "0.1.0"
 
   environment_name        = var.environment_name
