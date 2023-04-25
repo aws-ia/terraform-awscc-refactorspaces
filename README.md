@@ -60,7 +60,7 @@ Error: AWS SDK Go Service Operation Incomplete
 
 Example configuration:
 
-```HCL
+```hcl
 module "refactor_spaces" {
   source  = "aws-ia/refactorspaces/awscc"
   version = "1.0.0"
@@ -152,7 +152,7 @@ These tags are used by the service and removal/adjustment can cause the service 
 
 For resources using the `aws` provider you can add the following to the provider configuration:
 
-```HCL
+```hcl
   ignore_tags {
     key_prefixes = ["refactor-spaces:"]
   }
