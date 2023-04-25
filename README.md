@@ -62,7 +62,7 @@ Example configuration:
 
 ```HCL
 module "refactor_spaces" {
-  source  = "aws-ia/refactor-spaces/aws"
+  source  = "aws-ia/refactorspaces/awscc"
   version = "1.0.0"
 
   environment_name        = "Unicorn"

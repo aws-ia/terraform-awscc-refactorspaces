@@ -1,5 +1,5 @@
 module "refactor_spaces_microservice_x" {
-  source  = "aws-ia/refactorspaces/aws"
+  source  = "aws-ia/refactorspaces/awscc"
   version = "0.1.0"
 
   environment_id = var.environment_id
