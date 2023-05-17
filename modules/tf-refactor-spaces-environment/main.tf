@@ -1,6 +1,6 @@
 /*
-    AWS Migration Hub Refactor Spaces : Environment
-    Create a AWS Migration Hub Refactor Spaces Environment
+    AWS Migration Hub Refactor Spaces: Environment
+    Create an AWS Migration Hub Refactor Spaces environment
 */
 resource "awscc_refactorspaces_environment" "current" {
   name                = var.environment_name
@@ -22,8 +22,8 @@ resource "awscc_refactorspaces_environment" "current" {
 }
 
 /*
-    AWS Resource Access Manager Share : Environment
-    Creates a AWS Resource Access Manager (RAM) share for the environment and associate it with the provided list of principals
+    AWS Resource Access Manager Share: Environment
+    Creates an AWS RAM share for the environment and associates it with the provided list of principals
 */
 resource "aws_ram_resource_share" "refactor_spaces_environment" {
   name                      = var.environment_name

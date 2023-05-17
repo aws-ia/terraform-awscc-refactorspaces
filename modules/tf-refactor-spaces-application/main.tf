@@ -1,5 +1,5 @@
 /*
-  VPC : Application Proxy VPC
+  VPC: Application Proxy VPC
   Read the Application Proxy VPC object
 */
 data "awscc_ec2_vpc" "application_proxy_vpc" {
@@ -7,8 +7,8 @@ data "awscc_ec2_vpc" "application_proxy_vpc" {
 }
 
 /*
-  AWS Migration Hub Refactor Spaces : Application
-  Create a AWS Migration Hub Refactor Spaces Application (Strangler-Fig-Proxy)
+  AWS Migration Hub Refactor Spaces: Application
+  Create an AWS Migration Hub Refactor Spaces application (Strangler-Fig-Proxy)
 */
 resource "awscc_refactorspaces_application" "current" {
   name                   = var.application_name
