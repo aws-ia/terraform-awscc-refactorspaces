@@ -15,8 +15,8 @@ As shown in the diagram, this example sets up the following:
 * An AWS Migration Hub Refactor Spaces environment named *unicorn-dev*.
 * An AWS Migration Hub Refactor Spaces application named *Unistore*.
 * The following AWS Migration Hub Refactor Spaces services:
-** _Unistore-legacy_ pointing to a monolithic application deployed on Amazon Elastic Compute Cloud (Amazon EC2), Amazon Elastic Container Service (Amazon ECS), Amazon Elastic Kubernetes Service (Amazon EKS), or similar services. This service is running in a VPC with a DNS name \_http://legacy-unicorns.example.com/_, acting as the default route.
-** _Unistore-AddToCartService_ pointing at a microservice deployed as a Lambda Function with the Amazon Resource Name (ARN) `arn:aws:lambda:us-east-1:999999999999:function:AddToCart`.
+  * *Unistore-legacy* pointing to a monolithic application deployed on Amazon Elastic Compute Cloud (Amazon EC2), Amazon Elastic Container Service (Amazon ECS), Amazon Elastic Kubernetes Service (Amazon EKS), or similar services. This service is running in a VPC with a DNS name *<http://legacy-unicorns.example.com/>*, acting as the default route.
+  * *Unistore-AddToCartService* pointing at a microservice deployed as a Lambda Function with the Amazon Resource Name (ARN) `arn:aws:lambda:us-east-1:999999999999:function:AddToCart`.
 * A route that sends `POST` and `GET` requests to `/unicorns/basket` to the Lambda function.
 
 ## Requirements
