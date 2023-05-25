@@ -20,8 +20,8 @@ variable "shared_to_principals" {
   Optional list of AWS principals to share the AWS Migration Hub Refactor Spaces environment.
 
   Please Note: The setting `Enable sharing with AWS Organizations` under the Resource Access Manager service must be enabled on the master account for your organization to share the organizational unit or to share with the entire organization. For more information, see https://docs.aws.amazon.com/ram/latest/userguide/getting-started-sharing.html.
-  
-  Allowed values are: 
+
+  Allowed values are:
   - 12-digit AWS account IDs;
   - ARN of the organization or;
   - ARN of the organizational units

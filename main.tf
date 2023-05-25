@@ -47,8 +47,8 @@ data "awscc_refactorspaces_application" "application" {
 /*
   AWS Migration Hub Refactor Spaces: Service
   Create refactor spaces services and routing constructs
-  
-  Enforce explicit ordering of service hosting the default route (create first/destroy last) 
+
+  Enforce explicit ordering of service hosting the default route (create first/destroy last)
 */
 module "refactor_spaces_service_defaults" {
   for_each = { for service in var.services : "${service.application_name}_${service.name}" => service if contains(service.routes[*].source_path, "/") }

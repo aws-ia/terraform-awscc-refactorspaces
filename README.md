@@ -94,7 +94,7 @@ module "refactor_spaces" {
 
 **Cause** This is because the attributes `application_identifier` and `environment_identifier` will be marked as `(known after apply)` for the service and route resources which will force a replacement as these attributes are marked in the provider as a forced replacement operation.
 
-**Workaround** Use input variables to define the values passed as `environment_id` and `application_id` to the module to prevent this behavior.  
+**Workaround** Use input variables to define the values passed as `environment_id` and `application_id` to the module to prevent this behavior.
 
 ### Defining multiple module blocks in the same HCL throws `Error: Invalid count argument`
 
