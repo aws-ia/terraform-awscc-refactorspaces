@@ -4,7 +4,7 @@
 The following example deploys AWS Refactor Spaces components within a single AWS account including the environment, application, and all service routes. We recommend only using this for proof-of-concept or testing purposes. In production, deploy microservices in separate AWS accounts to simplify implementation of least privilege access models for a single application scope, simplify internal resource tracking and chargeback, and service limits and quotas.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/aws-ia/terraform-aws-refactorspaces/main/images/aws_migration_hub_refactor_spaces_basic.png" alt="Simple" width="75%">
+  <img src="https://raw.githubusercontent.com/aws-ia/terraform-awscc-refactorspaces/main/images/aws_migration_hub_refactor_spaces_basic.png" alt="Simple" width="75%">
 </p>
 
 Figure 1. Example configuration of AWS Migration Hub Refactor Spaces with a monolithic application _Unishop_ with the AddToCart strangled as an AWS Lambda microservice.
