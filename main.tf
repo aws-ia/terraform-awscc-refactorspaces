@@ -86,4 +86,3 @@ module "refactor_spaces_service_non_defaults" {
     module.refactor_spaces_service_defaults
   ]
 }
-  

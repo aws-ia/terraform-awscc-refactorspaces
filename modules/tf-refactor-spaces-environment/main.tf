@@ -45,4 +45,3 @@ resource "aws_ram_principal_association" "refactor_spaces_environment" {
   principal          = each.value
   resource_share_arn = aws_ram_resource_share.refactor_spaces_environment.arn
 }
-
