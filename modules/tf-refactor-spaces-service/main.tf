@@ -1,6 +1,6 @@
 /*
-  AWS Migration Hub Refactor Spaces : Service
-  Create a AWS Migration Hub Refactor Spaces service
+  AWS Migration Hub Refactor Spaces: Service
+  Create an AWS Migration Hub Refactor Spaces service
 */
 resource "awscc_refactorspaces_service" "current" {
   application_identifier = var.application_id
@@ -22,8 +22,8 @@ resource "awscc_refactorspaces_service" "current" {
 }
 
 /*
-  AWS Migration Hub Refactor Spaces : Routes (Default)
-  Creates default routes for the Refactor Spaces services; created first to ensure correct ordering implementation
+  AWS Migration Hub Refactor Spaces: Routes (default)
+  Creates default routes for the Refactor Spaces services. Create first to ensure correct ordering implementation.
 */
 resource "awscc_refactorspaces_route" "default" {
   for_each = { for default_route in var.routes : default_route.source_path => default_route if default_route.source_path == "/" }
@@ -56,7 +56,7 @@ resource "awscc_refactorspaces_route" "default" {
 }
 
 /*
-  AWS Migration Hub Refactor Spaces : Routes (non-defaults)
+  AWS Migration Hub Refactor Spaces: Routes (non-defaults)
   Create non-default routes for the Refactor Spaces services
 */
 resource "awscc_refactorspaces_route" "non_default" {

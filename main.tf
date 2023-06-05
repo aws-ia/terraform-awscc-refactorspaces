@@ -1,6 +1,6 @@
 /*
-  AWS Migration Hub Refactor Spaces : Environment
-  Create AWS Migration Hub Refactor Spaces Environment if no environment_id provided
+  AWS Migration Hub Refactor Spaces: Environment
+  Create AWS Migration Hub Refactor Spaces environment if no environment_id provided.
 */
 module "refactor_spaces_environment" {
   count = local.create_environment ? 1 : 0
@@ -20,8 +20,8 @@ data "awscc_refactorspaces_environment" "environment" {
 }
 
 /*
-  AWS Migration Hub Refactor Spaces : Applications
-  Create AWS Migration Hub Refactor Spaces Applications (Strangler-Fig-Proxy)
+  AWS Migration Hub Refactor Spaces: Applications
+  Create AWS Migration Hub Refactor Spaces applications (Strangler-Fig-Proxy).
 */
 module "refactor_spaces_application" {
   for_each = { for application in var.applications : application.application_name => application }
@@ -36,8 +36,8 @@ module "refactor_spaces_application" {
 }
 
 /*
-  AWS Migration Hub Refactor Spaces : Applications
-  Return data objects for one or more AWS Migration Hub Refactor Spaces Applications for use in Service configuration
+  AWS Migration Hub Refactor Spaces: Applications
+  Return data objects for one or more AWS Migration Hub Refactor Spaces applications for use in service configuration
 */
 data "awscc_refactorspaces_application" "application" {
   count = length(local.application_id_collection) # Using length as for_each keys would derived from resource attributes determined after apply if creating applications
@@ -45,10 +45,10 @@ data "awscc_refactorspaces_application" "application" {
 }
 
 /*
-  AWS Migration Hub Refactor Spaces : Service
+  AWS Migration Hub Refactor Spaces: Service
   Create refactor spaces services and routing constructs
-  
-  Enforce explicit ordering of service hosting the default route (create first/destroy last) 
+
+  Enforce explicit ordering of service hosting the default route (create first/destroy last)
 */
 module "refactor_spaces_service_defaults" {
   for_each = { for service in var.services : "${service.application_name}_${service.name}" => service if contains(service.routes[*].source_path, "/") }
@@ -86,4 +86,3 @@ module "refactor_spaces_service_non_defaults" {
     module.refactor_spaces_service_defaults
   ]
 }
-  

@@ -1,12 +1,12 @@
 output "environment" {
   value       = local.environment
-  description = "AWS Migration Hub Refactor Spaces environment resource attributes. Full output of [`awscc_refactorspaces_environment`](https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_environment)"
+  description = "AWS Migration Hub Refactor Spaces environment resource attributes. Full output of [`awscc_refactorspaces_environment`](https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_environment)."
 }
 
 output "applications" {
   value       = local.application_objects
   description = <<-EOF
-  Collection of AWS Migration Hub Refactor Spaces Application managed by or used.
+  Collection of AWS Migration Hub Refactor Spaces application managed by or used.
 
   Example:
   ```
@@ -33,7 +33,7 @@ EOF
 output "services" {
   value       = local.service_objects
   description = <<-EOF
-  Collection of AWS Migration Hub Refactor Spaces Services and associated routes.
+  Collection of AWS Migration Hub Refactor Spaces services and associated routes.
 
   Example:
   ```
