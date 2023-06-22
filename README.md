@@ -39,12 +39,11 @@ Figure 1 shows an example deploying all AWS Migration Hub Refactor Spaces in a s
   <img src="https://raw.githubusercontent.com/aws-ia/terraform-awscc-refactorspaces/main/images/aws_migration_hub_refactor_spaces_basic.png" alt="Simple" width="75%">
 </p>
 
-Figure 1. Example configuration of AWS Migration Hub Refactor Spaces with a monolithic application 'Unishop' with the AddToCart strangled as a Lambda microservice.
+Figure 1. Example configuration of AWS Migration Hub Refactor Spaces with a monolithic application 'Unishop' with a new AddToCart microservice running as a Lambda microservice.
 
 As shown in the diagram, the module in this example sets up the following:
 
-- An Amazon VPC "vpc-application-example-proxy" with IPv4 CIDR 192.168.10.0/24 and two 27-bit private subnets.
-- An AWS Migration Hub Refactor Spaces environment with the **Provision a network bridge for cross account connectivity** option configured which creates a new AWS Transit Gateway
+- An AWS Migration Hub Refactor Spaces environment with the *Provision a network bridge for cross account connectivity* option configured which creates a new AWS Transit Gateway
 - An AWS Migration Hub Refactor Spaces application which creates an Amazon API Gateway and establishes a VPC Private Link to a provided Amazon Virtual Private Cloud (VPC)
 - The following AWS Migration Hub Refactor Spaces services:
   - *Default* pointing to a monolithic application deployed on Amazon Elastic Compute Cloud (Amazon EC2), Amazon Elastic Container Service (Amazon ECS), Amazon Elastic Kubernetes Service (Amazon EKS), or similar services. This service is acting as the default route for traffic.
