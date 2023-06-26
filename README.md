@@ -39,16 +39,27 @@ Figure 1 shows an example deploying all AWS Migration Hub Refactor Spaces in a s
   <img src="https://raw.githubusercontent.com/aws-ia/terraform-awscc-refactorspaces/main/images/aws_migration_hub_refactor_spaces_basic.png" alt="Simple" width="75%">
 </p>
 
-Figure 1. Example configuration of AWS Migration Hub Refactor Spaces with a monolithic application 'Unishop' with a new AddToCart microservice running as a Lambda microservice.
+Figure 1. Example configuration of AWS Migration Hub Refactor Spaces deployed with a monolithic application 'Unishop' with a new AddToCart microservice running as a Lambda microservice.
 
 As shown in the diagram, the module in this example sets up the following:
 
-- An AWS Migration Hub Refactor Spaces environment with the *Provision a network bridge for cross account connectivity* option configured which creates a new AWS Transit Gateway
-- An AWS Migration Hub Refactor Spaces application which creates an Amazon API Gateway and establishes a VPC Private Link to a provided Amazon Virtual Private Cloud (VPC)
+- An AWS Migration Hub Refactor Spaces environment with the *Provision a network bridge for cross account connectivity* option configured which creates a new AWS Transit Gateway managed by AWS Migration Hub Refactor Spaces
+- An AWS Migration Hub Refactor Spaces application which creates an Amazon API Gateway
+- A Network Load Balancer is deployed in a provided Amazon Virtual Private Cloud (VPC) and connected to the Amazon API Gateway by AWS Migration Hub Refactor Spaces using the VPC Link feature
 - The following AWS Migration Hub Refactor Spaces services:
-  - *Default* pointing to a monolithic application deployed on Amazon Elastic Compute Cloud (Amazon EC2), Amazon Elastic Container Service (Amazon ECS), Amazon Elastic Kubernetes Service (Amazon EKS), or similar services. This service is acting as the default route for traffic.
+  - *Default* pointing to a monolithic application deployed on Amazon Elastic Compute Cloud (Amazon EC2). This service is acting as the default route for traffic.
   - *AddToCart* pointing at a microservice deployed as a Lambda Function *AddToCart* which holds the modernized AddToCart business logic.
   - A route that sends requests for the *AddToCart* domain to the Lambda function.
+
+The following elements shown in the diagram are not deployed by the module but provided as [inputs](#inputs) and depicted to illustrate a real-world deployment scenario:
+
+- A highly available architecture that spans two Availability Zones
+- Two VPCs configured with private subnets
+- An Amazon Virtual Private Cloud (VPC), deployed across two Availability Zones, used to host a Network Load Balancer deployed by AWS Migration Hub Refactor Spaces. This is used by the Amazon API Gateway to communicate with workloads deployed in other VPCs attached to the AWS Transit Gateway managed by AWS Migration Hub Refactor Spaces
+- A second Amazon Virtual Private Cloud (VPC), deployed across two Availability Zones, used to host the monolithic application "Unistore legacy" attached to the AWS Transit Gateway managed by AWS Migration Hub Refactor Spaces
+- In each of the private subnets of the second Amazon Virtual Private Cloud (VPC), an Amazon Elastic Compute Cloud (Amazon EC2) instance hosting the monolithic application "Unistore legacy"
+- An Application Load Balancer, mapped two the private subnets of the second Amazon Virtual Private Cloud (VPC), forwarding traffic to a Target group containing the Amazon Elastic Compute Cloud (Amazon EC2) instances hosting the monolithic application "Unistore legacy"
+- A Lambda Function *AddToCart* which holds the modernized AddToCart business logic that has been strangled from the "Unistore legacy" monolithic application
 
 ## Usage
 
