@@ -3,14 +3,21 @@
 
 ## Overview
 
-This module can be used to deploy AWS Migration Hub Refactor Spaces components. Common deployment examples can be found in [examples/](./examples). The module can be used to deploy Environments, Applications, Services & Routes or a subset of these resources to enable different use cases.
+This module can be used to deploy [AWS Migration Hub Refactor Spaces](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/what-is-mhub-refactor-spaces.html) components in the AWS Cloud. Common deployment examples can be found in [examples/](./examples). The module can be used to deploy Environments, Applications, Services & Routes or a subset of these resources to enable different use cases.
+
+For more information, refer to the [AWS Migration Hub Refactor Space documentation](https://docs.aws.amazon.com/migrationhub/index.html).
 
 ## Table of contents
 
+- [Overview](#overview)
+- [Costs and licenses](#costs-and-licenses)
+- [Architecture](#architecture)
 - [Usage](#usage)
-- [Contributing](#contributing)
 - [Support and Feedback](#support-and-feedback)
+- [Contributing](#contributing)
 - [Known Issues](#known-issues)
+- [Module Documentation](#module-documentation)
+- [Customer responsibility](#customer-responsibility)
 - [Requirements](#requirements)
 - [Providers](#providers)
 - [Modules](#modules)
@@ -18,19 +25,45 @@ This module can be used to deploy AWS Migration Hub Refactor Spaces components. 
 - [Inputs](#inputs)
 - [Outputs](#outputs)
 
-## Usage
+## Costs and licenses
 
-For example usage, refer to the [examples/](./examples) directory in this repository. The module can be used to create all AWS Migration Hub Refactor Spaces components as part of a single deployment or to add AWS Migration Hub Refactor Spaces applications or services to an existing AWS Migration Hub Refactor Spaces environment or application (for example in multi-account deployment scenarios).
+You pay for the cost of the Refactor Spaces feature and and any resources being consumed on AWS. For more information, refer to [AWS Migration Hub pricing](https://aws.amazon.com/migration-hub/pricing/).
 
-### Basic Example
+## Architecture
 
-Figure 1 shows an example configuration you can deploy using this module. For more details, refer to the basic deployment example in this repository.
+The module can be used to create all AWS Migration Hub Refactor Spaces components as part of a single deployment or to add AWS Migration Hub Refactor Spaces applications or services to an existing AWS Migration Hub Refactor Spaces environment or application (for example in multi-account deployment scenarios).
+
+Figure 1 shows an example deploying all AWS Migration Hub Refactor Spaces in a single account.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/aws-ia/terraform-awscc-refactorspaces/main/images/aws_migration_hub_refactor_spaces_basic.png" alt="Simple" width="75%">
 </p>
 
-Figure 1. Example configuration of AWS Migration Hub Refactor Spaces with a monolithic application 'Unishop' with the AddToCart strangled as a Lambda microservice.
+Figure 1. Example configuration of AWS Migration Hub Refactor Spaces deployed with a monolithic application 'Unishop' with a new AddToCart microservice running as a Lambda microservice.
+
+As shown in the diagram, the module in this example sets up the following:
+
+- An AWS Migration Hub Refactor Spaces environment with the *Provision a network bridge for cross account connectivity* option configured which creates a new AWS Transit Gateway managed by AWS Migration Hub Refactor Spaces
+- An AWS Migration Hub Refactor Spaces application which creates an Amazon API Gateway
+- A Network Load Balancer is deployed in a provided Amazon Virtual Private Cloud (VPC) and connected to the Amazon API Gateway by AWS Migration Hub Refactor Spaces using the VPC Link feature
+- The following AWS Migration Hub Refactor Spaces services:
+  - *Default* pointing to a monolithic application deployed on Amazon Elastic Compute Cloud (Amazon EC2). This service is acting as the default route for traffic.
+  - *AddToCart* pointing at a microservice deployed as a Lambda Function *AddToCart* which holds the modernized AddToCart business logic.
+  - A route that sends requests for the *AddToCart* domain to the Lambda function.
+
+The following elements shown in the diagram are not deployed by the module but provided as [inputs](#inputs) and depicted to illustrate a real-world deployment scenario:
+
+- A highly available architecture that spans two Availability Zones
+- Two VPCs configured with private subnets
+- An Amazon Virtual Private Cloud (VPC), deployed across two Availability Zones, used to host a Network Load Balancer deployed by AWS Migration Hub Refactor Spaces. This is used by the Amazon API Gateway to communicate with workloads deployed in other VPCs attached to the AWS Transit Gateway managed by AWS Migration Hub Refactor Spaces
+- A second Amazon Virtual Private Cloud (VPC), deployed across two Availability Zones, used to host the monolithic application "Unistore legacy" attached to the AWS Transit Gateway managed by AWS Migration Hub Refactor Spaces
+- In each of the private subnets of the second Amazon Virtual Private Cloud (VPC), an Amazon Elastic Compute Cloud (Amazon EC2) instance hosting the monolithic application "Unistore legacy"
+- An Application Load Balancer, mapped two the private subnets of the second Amazon Virtual Private Cloud (VPC), forwarding traffic to a Target group containing the Amazon Elastic Compute Cloud (Amazon EC2) instances hosting the monolithic application "Unistore legacy"
+- A Lambda Function *AddToCart* which holds the modernized AddToCart business logic that has been strangled from the "Unistore legacy" monolithic application
+
+## Usage
+
+For example usage, refer to the [examples/](./examples) directory in this repository.
 
 ## Support and Feedback
 
@@ -163,6 +196,10 @@ For resources managed by the `awscc` provider you must add the tags to the resou
 ### Module Documentation
 
 **Do not manually update README.md**. `terraform-docs` is used to generate README files. For any instructions an content, please update [.header.md](./.header.md) then simply run `terraform-docs ./` or allow the `pre-commit` to do so.
+
+## Customer responsibility
+
+Cloud security at AWS is the highest priority. Security is a shared responsibility between AWS and you. For more information on understanding how to apply the shared responsibility model when using AWS Migration Hub Refactor Spaces, please refer to [Security in AWS Migration Hub Refactor Spaces](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/security.html).
 
 ## Requirements
 
