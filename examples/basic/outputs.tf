@@ -41,7 +41,7 @@ output "services" {
     {
       "arn" = "arn:aws:refactor-spaces:us-east-1:99999999999:environment/env-ABC/application/app-XYZ/service/svc-XYZ"
       "name" = "legacy",
-      description = "The legacy monolithic application entry point"
+      description = "The legacy monolithic application entry point."
       routes = [
         {
           "arn" = "arn:aws:refactor-spaces:us-east-1:99999999999:environment/env-ABC/application/app-XYZ/route/rte-ABCD"
