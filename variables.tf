@@ -1,26 +1,26 @@
 variable "environment_name" {
   type        = string
-  description = "Name of the AWS Migration Hub Refactor Spaces environment to create. Ignored if `var.environment_id` for an existing environment is provided."
+  description = "Name of AWS Migration Hub Refactor Spaces environment to create. Ignored if `var.environment_id` for an existing environment is provided."
   default     = null
 }
 
 variable "environment_description" {
   type        = string
-  description = "(Optional) Description for the AWS Migration Hub Refactor Spaces environment. Ignored if `var.environment_id` for an existing environment is provided."
+  description = "(Optional) Description for AWS Migration Hub Refactor Spaces environment. Ignored if `var.environment_id` for an existing environment is provided."
   default     = null
 }
 
 variable "provision_network_bridge" {
   type        = bool
-  description = "When `true` AWS Migration Hub Refactor Spaces creates and manages an AWS Transit Gateway to establish cross account network connectivity for this environment. Default: false."
+  description = "When `true` AWS Migration Hub Refactor Spaces creates and manages an AWS Transit Gateway to establish cross-account network connectivity for this environment. Default: false."
   default     = false
 }
 
 variable "shared_to_principals" {
   description = <<-EOF
-  Optional list of AWS principals to share the AWS Migration Hub Refactor Spaces environment. Ignored if `var.environment_id` for an existing environment is provided.
+  Optional list of AWS principals to share the AWS Migration Hub Refactor Spaces environment with. Ignored if `var.environment_id` for an existing environment is provided.
 
-  Please Note: The setting `Enable sharing with AWS Organizations` under the Resource Access Manager service must be enabled on the master account for your organization to share the organizational unit or to share with the entire organization. For more information, see https://docs.aws.amazon.com/ram/latest/userguide/getting-started-sharing.html.
+  Note: The setting `Enable sharing with AWS Organizations` under the Resource Access Manager service must be enabled on the master account for your organization to share the organizational unit or to share with the entire organization. For more information, refer to https://docs.aws.amazon.com/ram/latest/userguide/getting-started-sharing.html.
 
   Allowed values are:
   - 12-digit AWS account IDs;
@@ -40,7 +40,7 @@ EOF
 }
 
 variable "environment_id" {
-  description = "AWS Migration Hub Refactor Spaces Environment ID of an already-deployed environment to deploy additional applications or services."
+  description = "AWS Migration Hub Refactor Spaces environment ID of an already-deployed environment to deploy additional applications or services."
   default     = null
   type        = string
 }

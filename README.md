@@ -3,63 +3,45 @@
 
 ## Overview
 
-This module can be used to deploy [AWS Migration Hub Refactor Spaces](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/what-is-mhub-refactor-spaces.html) components in the AWS Cloud. Common deployment examples can be found in [examples/](./examples). The module can be used to deploy Environments, Applications, Services & Routes or a subset of these resources to enable different use cases.
+This Amazon Web Services (AWS) Solution is used to deploy [AWS Migration Hub Refactor Spaces](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/what-is-mhub-refactor-spaces.html) components in the AWS Cloud. For common deployment examples, refer to [examples/](./examples). The solution is for users who want to deploy environments, applications, services, and routes or a subset of these resources to enable different use cases.
 
 For more information, refer to the [AWS Migration Hub Refactor Space documentation](https://docs.aws.amazon.com/migrationhub/index.html).
 
-## Table of contents
-
-- [Overview](#overview)
-- [Costs and licenses](#costs-and-licenses)
-- [Architecture](#architecture)
-- [Usage](#usage)
-- [Support and Feedback](#support-and-feedback)
-- [Contributing](#contributing)
-- [Known Issues](#known-issues)
-- [Module Documentation](#module-documentation)
-- [Customer responsibility](#customer-responsibility)
-- [Requirements](#requirements)
-- [Providers](#providers)
-- [Modules](#modules)
-- [Resources](#resources)
-- [Inputs](#inputs)
-- [Outputs](#outputs)
-
 ## Costs and licenses
 
-You pay for the cost of the Refactor Spaces feature and and any resources being consumed on AWS. For more information, refer to [AWS Migration Hub pricing](https://aws.amazon.com/migration-hub/pricing/).
+You pay for the cost of the Refactor Spaces feature and any resources being consumed on AWS. For more information, refer to [AWS Migration Hub pricing](https://aws.amazon.com/migration-hub/pricing/).
 
 ## Architecture
 
-The module can be used to create all AWS Migration Hub Refactor Spaces components as part of a single deployment or to add AWS Migration Hub Refactor Spaces applications or services to an existing AWS Migration Hub Refactor Spaces environment or application (for example in multi-account deployment scenarios).
+Use this solution to create all AWS Migration Hub Refactor Spaces components as part of a single deployment or to add AWS Migration Hub Refactor Spaces applications or services to an existing AWS Migration Hub Refactor Spaces environment or application (in multi-account deployment scenarios).
 
-Figure 1 shows an example deploying all AWS Migration Hub Refactor Spaces in a single account.
+Figure 1 shows an example deployment of all AWS Migration Hub Refactor Spaces in a single account.
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/aws-ia/terraform-awscc-refactorspaces/main/images/aws_migration_hub_refactor_spaces_basic.png" alt="Simple" width="75%">
-</p>
+![Architecture for Migration Hub Refactor Spaces on AWS](https://raw.githubusercontent.com/aws-ia/terraform-awscc-refactorspaces/main/images/aws_migration_hub_refactor_spaces_basic.png)
 
-Figure 1. Example configuration of AWS Migration Hub Refactor Spaces deployed with a monolithic application 'Unishop' with a new AddToCart microservice running as a Lambda microservice.
+Figure 1. Example configuration of AWS Migration Hub Refactor Spaces deployed with a monolithic application Unishop with a new AddToCart microservice, running as an AWS Lambda microservice.
 
-As shown in the diagram, the module in this example sets up the following:
+As shown in the diagram, the solution in this example sets up the following:
 
-- An AWS Migration Hub Refactor Spaces environment with the *Provision a network bridge for cross account connectivity* option configured which creates a new AWS Transit Gateway managed by AWS Migration Hub Refactor Spaces
-- An AWS Migration Hub Refactor Spaces application which creates an Amazon API Gateway
-- A Network Load Balancer is deployed in a provided Amazon Virtual Private Cloud (VPC) and connected to the Amazon API Gateway by AWS Migration Hub Refactor Spaces using the VPC Link feature
-- The following AWS Migration Hub Refactor Spaces services:
-  - *Default* pointing to a monolithic application deployed on Amazon Elastic Compute Cloud (Amazon EC2). This service is acting as the default route for traffic.
-  - *AddToCart* pointing at a microservice deployed as a Lambda Function *AddToCart* which holds the modernized AddToCart business logic.
-  - A route that sends requests for the *AddToCart* domain to the Lambda function.
+* A highly available architecture that spans two Availability Zones.*
+* One Virtual Private Cloud (VPC) to:
+  ** Host a Network Load Balancer, deployed by AWS Migration Hub Refactor Spaces. Amazon API Gateway uses the Network Load Balancer and an AWS Transit Gateway attachment in the private subnet to communicate with workloads deployed in other VPCs. Amazon API Gateway is managed by AWS Migration Hub Refactor Spaces.*
+* A second VPC to:
+  ** Host the monolithic application Unistore legacy. Amazon API Gateway uses the Application Load Balancer and an AWS Transit Gateway attachment in the private subnet, and the Amazon API Gateway is managed by AWS Migration Hub Refactor Spaces.*
+* In the private subnets of the second VPC:
+  ** An Amazon Elastic Compute Cloud (Amazon EC2) instance to host the monolithic application Unistore legacy.*
+* An Application Load Balancer to forward traffic to a Target group that contains the Amazon EC2 instances.*
+* An AWS Migration Hub:
+  ** Refactor Spaces environment configured to create a new AWS Transit Gateway. This environment is managed by AWS Migration Hub Refactor Spaces. An option is available to provision a network bridge for cross-account connectivity.
+  ** An AWS Migration Hub Refactor Spaces application that creates an Amazon API Gateway.
+* The following AWS Migration Hub Refactor Spaces services:
+  ** Default service points to a monolithic application deployed on Amazon EC2. This service acts as the default route for traffic.
+  ** AddToCart service points to a microservice deployed as an AWS Lambda function.
+* A route that sends requests for the AddToCart domain to the Lambda function.
+* A Network Load Balancer deployed in a provided VPC and connected to the Amazon API Gateway by AWS Migration Hub Refactor Spaces. This uses the VPC link feature.
+* A Lambda function AddToCart that holds the modernized AddToCart business logic strangled from the Unistore legacy monolithic application.
 
-The following elements shown in the diagram are not deployed by the module but provided as [inputs](#inputs) and depicted to illustrate a real-world deployment scenario:
-
-- A highly available architecture that spans two Availability Zones
-- Two VPCs configured with private subnets
-- An Amazon Virtual Private Cloud (VPC), deployed across two Availability Zones, used to host a Network Load Balancer deployed by AWS Migration Hub Refactor Spaces. This is used by the Amazon API Gateway to communicate with workloads deployed in other VPCs attached to the AWS Transit Gateway managed by AWS Migration Hub Refactor Spaces
-- A second Amazon Virtual Private Cloud (VPC), deployed across two Availability Zones, used to host the monolithic application "Unistore legacy" attached to the AWS Transit Gateway managed by AWS Migration Hub Refactor Spaces
-- In each of the private subnets of the second Amazon Virtual Private Cloud (VPC), an Amazon Elastic Compute Cloud (Amazon EC2) instance hosting the monolithic application "Unistore legacy"
-- An Application Load Balancer, mapped two the private subnets of the second Amazon Virtual Private Cloud (VPC), forwarding traffic to a Target group containing the Amazon Elastic Compute Cloud (Amazon EC2) instances hosting the monolithic application "Unistore legacy"
-- A Lambda Function *AddToCart* which holds the modernized AddToCart business logic that has been strangled from the "Unistore legacy" monolithic application
+*The Terraform module that deploys this solution does not include the components marked by asterisks but are provided as inputs and depicted to illustrate a real-world deployment scenario.
 
 ## Usage
 
@@ -67,19 +49,19 @@ For example usage, refer to the [examples/](./examples) directory in this reposi
 
 ## Support and Feedback
 
-This Terraform module is maintained by AWS Solution Architects. It is not part of an AWS service and support is provided best-effort by the community.
+This Terraform solution is maintained by AWS Solution Architects. It is not part of an AWS service, so the community provides support.
 
-To post feedback, submit feature ideas, or report bugs, please use the Issues section of this GitHub repo.
+To post feedback, submit feature ideas, or report bugs, use the Issues section of this GitHub repo.
 
 ## Contributing
 
-Please see our [developer documentation](CONTRIBUTING.md) for guidance on contributing to this module.
+Refer to our [developer documentation](CONTRIBUTING.md) for guidance on contributing to this solution.
 
 ## Known Issues
 
-### Vpc Association Failed for Vpc with ID vpc-XXXYYYZZZ to environment with ID env-XXXYYYXZZ
+### The VPC association failed for a VPC with a vpc-XXXYYYZZZ ID to an environment with a env-XXXYYYXZZ ID
 
-**Issue:** During a `terraform apply` throw the following when deploying a the module with two (or more) AWS Migration Hub Refactor Spaces Applications defined (see below for example) the following exception is thrown:
+**Issue:** During a `terraform apply`, when you deploy a solution with two or more AWS Migration Hub Refactor Spaces applications defined (see below for example), you encounter the following exception:
 
 ```log
 Error: AWS SDK Go Service Operation Incomplete
@@ -117,21 +99,21 @@ module "refactor_spaces" {
   ]
 ```
 
-**Cause** This condition is caused as terraform attempts to create both Refactor Spaces Applications in asynchronously however concurrent creation/deletion of Application within the same AWS Migration Hub Refactor Spaces environment is not supported.
+**Cause:** Terraform attempts to create both Refactor Spaces applications asynchronously; however, concurrent creation/deletion of an application within the same AWS Migration Hub Refactor Spaces environment is not supported.
 
-**Workaround** Use the terraform [`-parallelism`](https://developer.hashicorp.com/terraform/cli/commands/apply#parallelism-n) flag set to `1` during the apply (e.g. `terraform apply -parallelism=1`) if creating multiple applications during a single apply or create the first application and perform the `terraform apply` and upon successful execution add the next application and re-run `terraform apply`.
+**Workaround:** If you are creating multiple applications during a single apply, use the Terraform [`-parallelism`](https://developer.hashicorp.com/terraform/cli/commands/apply#parallelism-n) flag set to `1` (example: `terraform apply -parallelism=1`). You can also create the first application and perform the `terraform apply` and after execution, add the next application and re-run `terraform apply`.
 
-### Services forced recreation during every apply when using `awscc_refactorspaces_environment` or `awscc_refactorspaces_application` data objects in module input variables
+### The services forced recreation during every apply when using `awscc_refactorspaces_environment` or `awscc_refactorspaces_application` data objects in the module input variables
 
-**Issue:** When using the module to create AWS Migration Hub Refactor Spaces Services & Routes as separate module blocks and using the using the `awscc_refactorspaces_environment` or `awscc_refactorspaces_application` data objects as inputs terraform will create force re-creation (delete, create) during every apply.
+**Issue:** When using the solution to create AWS Migration Hub Refactor Spaces services and routes as separate module blocks, and using the `awscc_refactorspaces_environment` or `awscc_refactorspaces_application` data objects as inputs, Terraform forces a re-creation (delete, create) during every apply.
 
-**Cause** This is because the attributes `application_identifier` and `environment_identifier` will be marked as `(known after apply)` for the service and route resources which will force a replacement as these attributes are marked in the provider as a forced replacement operation.
+**Cause:** The attributes `application_identifier` and `environment_identifier` are marked as `(known after apply)` for the service and route resources. This forces a replacement because these attributes are marked in the provider as a forced replacement operation.
 
-**Workaround** Use input variables to define the values passed as `environment_id` and `application_id` to the module to prevent this behavior.
+**Workaround:** Use input variables to define the values passed as `environment_id` and `application_id` to the module.
 
-### Defining multiple module blocks in the same HCL throws `Error: Invalid count argument`
+### Defining multiple module blocks in the same HCL causes this error: `Error: Invalid count argument`
 
-**Issue:** When using the module to create AWS Migration Hub Refactor Spaces components as separate module blocks (e.g. one module block to create the environment, one module block to create an application and one module block to create services) in the same HCL which references the dependent module blocks, terraform throws:
+**Issue:** When using the solution to create AWS Migration Hub Refactor Spaces components as separate module blocks (one module block to create the environment, one module block to create an application, and one module block to create services) in the same HCL which references the dependent module blocks, you encounter this error:
 
 ```log
  Error: Invalid count argument
@@ -142,16 +124,16 @@ module "refactor_spaces" {
 The "count" value depends on resource attributes that cannot be determined until apply, so Terraform cannot predict how many instances will be created. To work around this, use the -target argument to first apply only the resources that the count depends on.
 ```
 
-**Cause** The module uses count/foreach blocks to determine if an environment or application needs to be created. During a terraform plan, as the `environment_id` and/or `application_id` values are not known until after the apply, terraform throws an exception. Terraform currently has a limitation when using computed values in modules containing count and foreach blocks as the number of objects created must be known before the apply. (See <https://github.com/hashicorp/terraform/issues/26078>).
+**Cause:** The module uses count/foreach blocks to determine if an environment or application needs to be created. During a Terraform plan, as the `environment_id` and/or `application_id` values are not known until after the apply, Terraform encounters an exception. Terraform currently has a limitation when using computed values in modules containing count and foreach blocks, so the number of objects created must be known before the apply. (See <https://github.com/hashicorp/terraform/issues/26078>).
 
-**Workaround** There are several approaches to workaround this issue such as:
+**Workaround:** Use one of the following approaches to workaround this issue:
 
-  1. If you wish to define multiple module blocks in a single HCL definition, use `terraform apply -target=module.XXX` to create the dependent modules first before calling `terraform apply`. You may have to execute several different `apply` actions with this approach or;
-  2. Deploy each module blocks in different pipelines/projects/folders and read the remote state or use the relevant data objects to read the inputs
+  1. If you wish to define multiple module blocks in a single HCL definition, use `terraform apply -target=module.XXX` to create the dependent modules first before calling `terraform apply`. You may have to execute several different `apply` actions with this approach.
+  2. Deploy each module blocks in different pipelines/projects/folders and read the remote state, or use the relevant data objects to read the inputs.
 
-### In a multi-account deployment, service creation/deletion fails with Route Table operation failures if service tags removed from objects
+### In a multi-account deployment, service creation/deletion fails with Route Table operation failures, if service tags are removed from objects
 
-**Issue:** In a multi-account deployment, service creation/deletion fails with a message similar to:
+**Issue:** You receive a failure message similar to the following:
 
 ```log
 Waiting for Cloud Control API service CreateResource operation completion returned: waiter state transitioned to FAILED. StatusMessage: java.lang.IllegalStateException: Resource of type AWS::RefactorSpaces::Service
@@ -160,9 +142,9 @@ Waiting for Cloud Control API service CreateResource operation completion return
 │ ResourceIdentifier=rtb-XXXXX, ResourceType=ROUTE_TABLE). ErrorCode: InternalFailure
 ```
 
-**Cause** AWS Migration Hub Refactor Spaces service creates two tags `refactor-spaces:environment-id` and `refactor-spaces:application-id` on resources that are part of an environment during configuration. The table below provides a list of where each tag is configured as part of the service configuration.
+**Cause:** AWS Migration Hub Refactor Spaces service creates the tags `refactor-spaces:environment-id` and `refactor-spaces:application-id` on resources that are part of an environment during configuration. The table below provides a list of where each tag is configured as part of the service configuration.
 
-These tags are used by the service and removal/adjustment can cause the service to behave incorrectly. In a multi-account deployment if these tags are removed from the resources this will cause the AWS Migration Services Refactor Spaces service operations to not complete successfully. This can occur if the objects are managed by AWS Config or Terraform with a configuration to have tags set explicitly to a set of values.
+These tags are used by the service and removal/adjustment can cause the service to behave incorrectly. In a multi-account deployment, if these tags are removed from the resources, it causes the AWS Migration Services Refactor Spaces service operations to complete unsuccessfully. This can occur if the objects are managed by AWS Config or Terraform with a configuration to have tags set explicitly to a set of values.
 
 | Resource                                        | Tag(s)                         | Value                            |
 |-------------------------------------------------|--------------------------------|----------------------------------|
@@ -181,9 +163,9 @@ These tags are used by the service and removal/adjustment can cause the service 
 | Service Endpoint Transit GW Attachment          | refactor-spaces:environment-id | Refactor Spaces Environment Id   |
 | Service Endpoint Refactor Spaces Security Group | refactor-spaces:environment-id | Refactor Spaces Environment Id   |
 
-**Workaround** Any of these resources managed by Terraform (including those imported) should include these tags as part of the terraform resource definition or explicitly ignore them during applies.
+**Workaround:** Any of these resources managed by Terraform (including those imported) should include these tags as part of the Terraform resource definition, or explicitly ignore them during applies.
 
-For resources using the `aws` provider you can add the following to the provider configuration:
+For resources using the `aws` provider, add the following to the provider configuration:
 
 ```hcl
   ignore_tags {
@@ -191,11 +173,7 @@ For resources using the `aws` provider you can add the following to the provider
   }
 ```
 
-For resources managed by the `awscc` provider you must add the tags to the resource definitions. A [feature request](https://github.com/hashicorp/terraform-provider-awscc/issues/800) has been opened to add this feature to the `awscc` provider in the future.
-
-### Module Documentation
-
-**Do not manually update README.md**. `terraform-docs` is used to generate README files. For any instructions an content, please update [.header.md](./.header.md) then simply run `terraform-docs ./` or allow the `pre-commit` to do so.
+For resources managed by the `awscc` provider you must add the tags to the resource definitions. A [feature request](https://github.com/hashicorp/terraform-provider-awscc/issues/800) has been opened to add this feature to the `awscc` provider, in the future.
 
 ## Customer responsibility
 
@@ -236,13 +214,13 @@ Cloud security at AWS is the highest priority. Security is a shared responsibili
 |------|-------------|------|---------|:--------:|
 | <a name="input_application_id"></a> [application\_id](#input\_application\_id) | AWS Migration Hub Refactor Spaces application ID of an already-deployed application to deploy additional services. `var.environment_id` must be specified if this value is not `null`. | `string` | `null` | no |
 | <a name="input_applications"></a> [applications](#input\_applications) | List of AWS Migration Hub Refactor Spaces applications to create. Ignored if `var.application_id` for an existing application is provided in the module block.<br><br>Properties:<br>- `application_name`                       = (Required\|string) The name of the application.<br>- `proxy_type`                             = (Optional\|string) The proxy type for the application. `REGIONAL` APIs are publicly accessible in the current Region. `PRIVATE` APIs are accessible only from VPCs. Default: REGIONAL.<br>- `apigateway_stage_name`                  = (Optional\|string) The name of the API Gateway stage to use for the application proxy. The name defaults to prod.<br>- `application_proxy_vpc_id`               = (Required\|string) The Amazon VPC ID of the VPC to deploy the application's proxy.<br><br>Example:<pre>applications = [<br>  {<br>    application_name         = "Unistore"<br>    proxy_type               = "PRIVATE"<br>    application_proxy_vpc_id = "vpc-XYZ"<br>    apigateway_stage_name    = "dev"<br>  },<br>  {<br>    application_name         = "Unistore-Prod"<br>    proxy_type               = "REGIONAL"<br>    application_proxy_vpc_id = "vpc-ABC"<br>    apigateway_stage_name    = "prod"<br>  }<br>]</pre> | <pre>list(object({<br>    application_name         = string<br>    proxy_type               = string<br>    apigateway_stage_name    = optional(string)<br>    application_proxy_vpc_id = string<br>  }))</pre> | `[]` | no |
-| <a name="input_environment_description"></a> [environment\_description](#input\_environment\_description) | (Optional) Description for the AWS Migration Hub Refactor Spaces environment. Ignored if `var.environment_id` for an existing environment is provided. | `string` | `null` | no |
-| <a name="input_environment_id"></a> [environment\_id](#input\_environment\_id) | AWS Migration Hub Refactor Spaces Environment ID of an already-deployed environment to deploy additional applications or services. | `string` | `null` | no |
-| <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Name of the AWS Migration Hub Refactor Spaces environment to create. Ignored if `var.environment_id` for an existing environment is provided. | `string` | `null` | no |
-| <a name="input_provision_network_bridge"></a> [provision\_network\_bridge](#input\_provision\_network\_bridge) | When `true` AWS Migration Hub Refactor Spaces creates and manages an AWS Transit Gateway to establish cross account network connectivity for this environment. Default: false. | `bool` | `false` | no |
+| <a name="input_environment_description"></a> [environment\_description](#input\_environment\_description) | (Optional) Description for AWS Migration Hub Refactor Spaces environment. Ignored if `var.environment_id` for an existing environment is provided. | `string` | `null` | no |
+| <a name="input_environment_id"></a> [environment\_id](#input\_environment\_id) | AWS Migration Hub Refactor Spaces environment ID of an already-deployed environment to deploy additional applications or services. | `string` | `null` | no |
+| <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Name of AWS Migration Hub Refactor Spaces environment to create. Ignored if `var.environment_id` for an existing environment is provided. | `string` | `null` | no |
+| <a name="input_provision_network_bridge"></a> [provision\_network\_bridge](#input\_provision\_network\_bridge) | When `true` AWS Migration Hub Refactor Spaces creates and manages an AWS Transit Gateway to establish cross-account network connectivity for this environment. Default: false. | `bool` | `false` | no |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Tags to set for all resources. | `map(string)` | `{}` | no |
 | <a name="input_services"></a> [services](#input\_services) | List of AWS Migration Hub Refactor Spaces service specifications and their routing configuration.<br><br>Properties:<br>- `name`             = (Required\|string) The name of the service.<br>- `application_name` = (Required\|string) The name of the application to associate the service.<br>- `description`      = (Optional\|string) A description of the service.<br>- `endpoint_type`    = (Required\|string) The endpoint type of the service. Allowed type is `"URL"` or `"LAMBDA"`.<br>- `lambda_arn`       = (Optional\|string) The ARN of the Lambda function to use for the endpoint. Required if `endpoint_type = "LAMBDA"`.<br>- `url_endpoint`     = (Optional\|string) The URL to route traffic to. The URL must be an rfc3986-formatted URL. If the host is a domain name, the name must be resolvable over the public internet. Required if `endpoint_type = "URL"`.<br>- `health_url`       = (Optional\|string) The health check URL of the URL endpoint type. If the URL is a public endpoint, the HealthURL must also be a public endpoint.<br>- `vpc_id`           = (Optional\|string) The ID of the VPC hosting the URL to route traffic to.<br>- `routes`           = (Optional\|list(object)) A collection of routes to associate with the service.<br>  - `source_path`         = (Required\|string) (Required\|string) The path to use to match traffic. Paths must start with / and are relative to the base of the application. If the route is the default this should be set as '/'.<br>  - `include_child_paths` = (Optional\|bool) Indicates whether to match all subpaths of the given source path. If this value is `false`, requests must match the source path exactly before they are forwarded to this route's service. Default true.<br>  - `http_verbs`          = (Optional\|list(string)) A list of HTTP methods to match. An empty list matches all values. Default all values.<br>  - `route_active`        = (Required\|bool) If set to `true`, traffic is forwarded to this route’s service after the route is created.<br><br>Example:<pre>services = [<br>  {<br>    name                                   = "Unistore-legacy"<br>    application_name                       = "Unistore"<br>    description                            = "The legacy monolithic application entry point"<br>    endpoint_type                          = "URL"<br>    url_endpoint                           = "http://legacy.example.com"<br>    vpc_id                                 = "vpc-XYZ"<br>    routes = [<br>      {<br>        source_path         = "/"     # Default route<br>        route_active        = true<br>      }<br>    ]<br>  },<br>  {<br>    name              = "Unistore-MicroServer"<br>    application_name  = "Unistore"<br>    description       = "The new Microservice"<br>    endpoint_type     = "LAMBDA"<br>    lambda_arn        = "arn:aws:lambda:us-east-1:123456789012:function:Test"<br>    routes = [<br>      {<br>        source_path         = "/unicorns/basket"<br>        include_child_paths = true<br>        http_verbs          = ["POST","GET"]<br>        route_active        = true<br>      }<br>    ]<br>  }<br>]</pre> | <pre>list(object({<br>    name             = string<br>    application_name = string<br>    description      = optional(string)<br>    endpoint_type    = string<br>    lambda_arn       = optional(string)<br>    url_endpoint     = optional(string)<br>    health_url       = optional(string)<br>    vpc_id           = optional(string)<br>    routes = optional(list(object({<br>      source_path         = string<br>      include_child_paths = optional(bool)<br>      http_verbs          = optional(list(string))<br>      route_active        = bool<br>    })))<br>  }))</pre> | `[]` | no |
-| <a name="input_shared_to_principals"></a> [shared\_to\_principals](#input\_shared\_to\_principals) | Optional list of AWS principals to share the AWS Migration Hub Refactor Spaces environment. Ignored if `var.environment_id` for an existing environment is provided.<br><br>Please Note: The setting `Enable sharing with AWS Organizations` under the Resource Access Manager service must be enabled on the master account for your organization to share the organizational unit or to share with the entire organization. For more information, see https://docs.aws.amazon.com/ram/latest/userguide/getting-started-sharing.html.<br><br>Allowed values are:<br>- 12-digit AWS account IDs;<br>- ARN of the organization or;<br>- ARN of the organizational units<br><br>Example:<pre>shared_to_principals = [<br>  "arn:aws:organizations::123456789012:ou/o-l6bam5e5ba/ou-23gz-abcde01r",<br>  "arn:aws:organizations::123456789012:ou/o-l6bam5e5ba/ou-23gz-rstuv02r",<br>]</pre> | `list(string)` | `[]` | no |
+| <a name="input_shared_to_principals"></a> [shared\_to\_principals](#input\_shared\_to\_principals) | Optional list of AWS principals to share the AWS Migration Hub Refactor Spaces environment with. Ignored if `var.environment_id` for an existing environment is provided.<br><br>Note: The setting `Enable sharing with AWS Organizations` under the Resource Access Manager service must be enabled on the master account for your organization to share the organizational unit or to share with the entire organization. For more information, refer to https://docs.aws.amazon.com/ram/latest/userguide/getting-started-sharing.html.<br><br>Allowed values are:<br>- 12-digit AWS account IDs;<br>- ARN of the organization or;<br>- ARN of the organizational units<br><br>Example:<pre>shared_to_principals = [<br>  "arn:aws:organizations::123456789012:ou/o-l6bam5e5ba/ou-23gz-abcde01r",<br>  "arn:aws:organizations::123456789012:ou/o-l6bam5e5ba/ou-23gz-rstuv02r",<br>]</pre> | `list(string)` | `[]` | no |
 
 ## Outputs
 

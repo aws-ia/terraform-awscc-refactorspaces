@@ -37,7 +37,7 @@ module "refactor_spaces_application" {
 
 /*
   AWS Migration Hub Refactor Spaces: Applications
-  Return data objects for one or more AWS Migration Hub Refactor Spaces applications for use in service configuration
+  Return data objects for one or more AWS Migration Hub Refactor Spaces applications for use in service configuration.
 */
 data "awscc_refactorspaces_application" "application" {
   count = length(local.application_id_collection) # Using length as for_each keys would derived from resource attributes determined after apply if creating applications
@@ -46,7 +46,7 @@ data "awscc_refactorspaces_application" "application" {
 
 /*
   AWS Migration Hub Refactor Spaces: Service
-  Create refactor spaces services and routing constructs
+  Create refactor spaces services and routing constructs.
 
   Enforce explicit ordering of service hosting the default route (create first/destroy last)
 */
