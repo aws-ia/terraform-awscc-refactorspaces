@@ -6,7 +6,7 @@ The following example creates a new AWS Migration Hub Refactor Spaces service ba
 
 This example sets up the following:
 
-* An AWS Migration Hub Refactor Spaces service (*Unistore-AddReview*) pointing at a microservice deployed as a Lambda Function with the ARN `arn:aws:lambda:us-east-1:999999999999:function:AddReview`. This service is in an existing AWS Migration Hub Refactor Spaces application shared with the account with the ID `app-xy1ABCDE1a`, in the environment `env-ab9ZXYVT9z`.
+* An AWS Migration Hub Refactor Spaces service (*Unistore-AddReview*) pointing at a microservice deployed as a Lambda function with the ARN `arn:aws:lambda:us-east-1:999999999999:function:AddReview`. This service is in an existing AWS Migration Hub Refactor Spaces application shared with the account with the ID `app-xy1ABCDE1a`, in the environment `env-ab9ZXYVT9z`.
 * A route that sends `POST` and `GET` requests to `/unicorns/reviews` to the Lambda function.
 
 ## Requirements
@@ -34,14 +34,14 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_application_id"></a> [application\_id](#input\_application\_id) | AWS Migration Hub Refactor Spaces application ID of the deployed application to configure the new microservice. | `string` | `"app-xy1ABCDE1a"` | no |
-| <a name="input_application_name"></a> [application\_name](#input\_application\_name) | Display name of an existing AWS Migration Hub Refactor Spaces application to add the microservice. | `string` | `"Unistore"` | no |
-| <a name="input_description_lambda_microservice"></a> [description\_lambda\_microservice](#input\_description\_lambda\_microservice) | Description for the Lambda-based microservice to add to an existing AWS Migration Hub Refactor Spaces application. | `string` | `"The new AddToCart Microservice"` | no |
-| <a name="input_display_name_lambda_microservice"></a> [display\_name\_lambda\_microservice](#input\_display\_name\_lambda\_microservice) | Display name for a new Lambda-based microservice to add to an existing AWS Migration Hub Refactor Spaces application to strangle a function of the monolith. | `string` | `"Unistore-AddReview"` | no |
-| <a name="input_environment_id"></a> [environment\_id](#input\_environment\_id) | AWS Migration Hub Refactor Spaces environment ID of an already deployed environment to deploy the new microservice. | `string` | `"env-ab9ZXYVT9z"` | no |
-| <a name="input_http_verbs_lambda_microservice"></a> [http\_verbs\_lambda\_microservice](#input\_http\_verbs\_lambda\_microservice) | List of HTTP methods AWS Migration Hub Refactor Spaces uses to match traffic destined for the new microservice. | `string` | <pre>[<br>  "POST",<br>  "GET"<br>]</pre> | no |
-| <a name="input_lambda_arn_microservice"></a> [lambda\_arn\_microservice](#input\_lambda\_arn\_microservice) | ARN of the Lambda function to use as an AWS Migration Hub Refactor Spaces service to strangle a function of the monolith. | `string` | `"arn:aws:lambda:us-east-1:999999999999:function:AddReview"` | no |
-| <a name="input_source_path_lambda_microservice"></a> [source\_path\_lambda\_microservice](#input\_source\_path\_lambda\_microservice) | Path AWS Migration Hub Refactor Spaces uses to match traffic destined for the new microservice. Paths must start with / and are relative to the base of the application. | `string` | `"/unicorns/reviews"` | no |
+| <a name="input_application_id"></a> [application\_id](#input\_application\_id) | AWS Migration Hub Refactor Spaces application ID of deployed application to configure the new microservice. | `string` | `"app-xy1ABCDE1a"` | no |
+| <a name="input_application_name"></a> [application\_name](#input\_application\_name) | Display name of existing AWS Migration Hub Refactor Spaces application to add the microservice. | `string` | `"Unistore"` | no |
+| <a name="input_description_lambda_microservice"></a> [description\_lambda\_microservice](#input\_description\_lambda\_microservice) | Description for Lambda-based microservice to add to existing AWS Migration Hub Refactor Spaces application. | `string` | `"The new AddToCart Microservice"` | no |
+| <a name="input_display_name_lambda_microservice"></a> [display\_name\_lambda\_microservice](#input\_display\_name\_lambda\_microservice) | Display name for new Lambda-based microservice to add to existing AWS Migration Hub Refactor Spaces application, to strangle a function of the monolith. | `string` | `"Unistore-AddReview"` | no |
+| <a name="input_environment_id"></a> [environment\_id](#input\_environment\_id) | AWS Migration Hub Refactor Spaces environment ID of an already-deployed environment to deploy the new microservice. | `string` | `"env-ab9ZXYVT9z"` | no |
+| <a name="input_http_verbs_lambda_microservice"></a> [http\_verbs\_lambda\_microservice](#input\_http\_verbs\_lambda\_microservice) | List of HTTP methods AWS Migration Hub Refactor Spaces uses to match traffic destined for new microservice. | `string` | <pre>[<br>  "POST",<br>  "GET"<br>]</pre> | no |
+| <a name="input_lambda_arn_microservice"></a> [lambda\_arn\_microservice](#input\_lambda\_arn\_microservice) | ARN of Lambda function to use as AWS Migration Hub Refactor Spaces service to strangle a function of the monolith. | `string` | `"arn:aws:lambda:us-east-1:999999999999:function:AddReview"` | no |
+| <a name="input_source_path_lambda_microservice"></a> [source\_path\_lambda\_microservice](#input\_source\_path\_lambda\_microservice) | Path AWS Migration Hub Refactor Spaces uses to match traffic destined for new microservice. Paths must start with / and are relative to the base of the application. | `string` | `"/unicorns/reviews"` | no |
 
 ## Outputs
 
