@@ -19,6 +19,8 @@ repos:
       - id: check-yaml
         args: [--allow-multiple-documents]
         exclude: "templates/.*"
+      - id: mixed-line-ending
+        args: [--fix=lf]
       #      - id: trailing-whitespace
       #- id: flake8
 
