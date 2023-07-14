@@ -6,7 +6,7 @@ minimum_pre_commit_version: 2.6.0
 repos:
   -
     repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: 3298ddab3c13dd77d6ce1fc0baf97691430d84b0  # frozen: v4.3.0
+    rev: f71fa2c1f9cf5cb705f73dffe4b21f7c61470ba9  # frozen: v4.4.0
     hooks:
       # - id: check-added-large-files
       - id: check-case-conflict
@@ -25,7 +25,7 @@ repos:
       #- id: flake8
 
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: f5aa7c83b61c6a2838b1ee67f5c706623fe015cc  # frozen: v1.75.0
+    rev: 3420134c37197c21edffc7e6093b14ffae8402f2  # frozen: v1.81.0
     hooks:
       # see https://github.com/antonbabenko/pre-commit-terraform#terraform_fmt
       - id: terraform_fmt
