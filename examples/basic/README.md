@@ -10,24 +10,18 @@ Figure 1. Example configuration of AWS Migration Hub Refactor Spaces deployed wi
 As shown in the diagram, the solution in this example sets up the following:
 
 * A highly available architecture that spans two Availability Zones.*
-* One Virtual Private Cloud (VPC) to:
-    * Host a Network Load Balancer, deployed by AWS Migration Hub Refactor Spaces. Amazon API Gateway uses the Network Load Balancer and an AWS Transit Gateway attachment in the private subnet to communicate with workloads deployed in other VPCs. Amazon API Gateway is managed by AWS Migration Hub Refactor Spaces.*
-* A second VPC to:
-    * Host the monolithic application Unistore legacy. Amazon API Gateway uses the Application Load Balancer and an AWS Transit Gateway attachment in the private subnet, and the Amazon API Gateway is managed by AWS Migration Hub Refactor Spaces.*
-* In the private subnets of the second VPC:
-    * An Amazon Elastic Compute Cloud (Amazon EC2) instance to host the monolithic application Unistore legacy.*
-* An Application Load Balancer to forward traffic to a Target group that contains the Amazon EC2 instances.*
-* An AWS Migration Hub:
-    * Refactor Spaces environment configured to create a new AWS Transit Gateway. This environment is managed by AWS Migration Hub Refactor Spaces. An option is available to provision a network bridge for cross-account connectivity.
-    * An AWS Migration Hub Refactor Spaces application that creates an Amazon API Gateway.
-* The following AWS Migration Hub Refactor Spaces services:
-    * Default service points to a monolithic application deployed on Amazon EC2. This service acts as the default route for traffic.
-    * AddToCart service points to a microservice deployed as an AWS Lambda function.
-* A route that sends requests for the AddToCart domain to the Lambda function.
-* A Network Load Balancer deployed in a provided VPC and connected to the Amazon API Gateway by AWS Migration Hub Refactor Spaces. This uses the VPC link feature.
-* A Lambda function AddToCart that holds the modernized AddToCart business logic strangled from the Unistore legacy monolithic application.
+* In one virtual private cloud (VPC):
+    * Private subnets containing an AWS Transit Gateway attachment. Amazon API Gateway uses this attachment to communicate with workloads deployed in other VPCs.*
+    * A Network Load Balancer, which uses the VPC link feature and distributes incoming traffic.*
+* In the second VPC:
+    * Private subnets, which contain an Amazon Elastic Compute Cloud (Amazon EC2) instance that hosts the monolithic Unistore legacy application. Each subnet also contains an AWS Transit Gateway attachment, which is used to provide private connectivity between the API Gateway and the application hosted within the VPC.*
+    * An Application Load Balancer to forward traffic to the Amazon EC2 instances.*
+* In the AWS Migration Hub's Refactor Spaces environment:
+    * AWS Transit Gateway, provisioned and managed by AWS Migration Hub's Refactor Spaces. If you choose to bring your own AWS Transit Gateway, this can be controlled using an optional input parameter.
+    * A Refactor Spaces application that manages Amazon API Gateway and two services: Default and AddtoCart. Default acts as the default route for traffic to the Unistore application. AddtoCart sends AddtoCart domain requests to the AWS Lambda function.
+* A Lambda function that holds the modernized AddToCart business logic strangled from the Unistore application.
 
-*The Terraform module that deploys this solution does not include the components marked by asterisks but are provided as inputs and depicted to illustrate a real-world deployment scenario.
+*The Terraform module that deploys this solution does not include the components marked by asterisks. These components, which you would provide as inputs, are depicted to illustrate a real-world deployment scenario.
 
 ## Requirements
 
@@ -77,7 +71,11 @@ No resources.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_applications"></a> [applications](#output\_applications) | Collection of AWS Migration Hub Refactor Spaces application managed by or used.<br><br>Example:<pre>applications = [<br>  {<br>    api_gateway_id = "a0abcdefg1o1"<br>    nlb_arn = "arn:aws:elasticloadbalancing:us-east-1:99999999999:loadbalancer/net/refactor-spaces-nlb-XXXX/YYYY",<br>    vpc_link_id = "00abcde"<br>    application = {<br>      "application_identifier" = "app-BSXbxAPn1r",<br>      "arn" = "arn:aws:refactor-spaces:us-east-1:99999999999:environment/env-ZoiD5hlRyz/application/app-BSXbxAPn1r",<br>      "environment_identifier" = "env-ZoiD5hlRyz",<br>      ...<br>            <all attributes of AWS Migration Hub Refactor Spaces Application: https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_application><br>    }<br>    application_proxy_vpc_attributes = {<br>      <all attributes of the awscc_ec2_vpc data source: https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/data-sources/ec2_vpc><br>    }<br>  }<br>]</pre> |
+| <a name="output_applications"></a> [applications](#output\_applications) | Collection of AWS Migration Hub Refactor Spaces application managed by or used.  
+<br>
+<br>Example:<pre>applications = [<br>  {<br>    api_gateway_id = "a0abcdefg1o1"<br>    nlb_arn = "arn:aws:elasticloadbalancing:us-east-1:99999999999:loadbalancer/net/refactor-spaces-nlb-XXXX/YYYY",<br>    vpc_link_id = "00abcde"<br>    application = {<br>      "application_identifier" = "app-BSXbxAPn1r",<br>      "arn" = "arn:aws:refactor-spaces:us-east-1:99999999999:environment/env-ZoiD5hlRyz/application/app-BSXbxAPn1r",<br>      "environment_identifier" = "env-ZoiD5hlRyz",<br>      ...<br>            <all attributes of AWS Migration Hub Refactor Spaces Application: https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_application><br>    }<br>    application_proxy_vpc_attributes = {<br>      <all attributes of the awscc_ec2_vpc data source: https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/data-sources/ec2_vpc><br>    }<br>  }<br>]</pre> |
 | <a name="output_environment"></a> [environment](#output\_environment) | AWS Migration Hub Refactor Spaces environment resource attributes. Full output of [`awscc_refactorspaces_environment`](https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_environment). |
-| <a name="output_services"></a> [services](#output\_services) | Collection of AWS Migration Hub Refactor Spaces services and associated routes.<br><br>Example:<pre>services = [<br>  {<br>    "arn" = "arn:aws:refactor-spaces:us-east-1:99999999999:environment/env-ABC/application/app-XYZ/service/svc-XYZ"<br>    "name" = "legacy",<br>    description = "The legacy monolithic application entry point."<br>    routes = [<br>      {<br>        "arn" = "arn:aws:refactor-spaces:us-east-1:99999999999:environment/env-ABC/application/app-XYZ/route/rte-ABCD"<br>        "route_identifier" = "rte-ABCD"<br>        "route_type": "DEFAULT"<br>        ...<br>        <all attributes of AWS Migration Hub Refactor Spaces Route: https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_route><br>      }<br>    ]<br>    ...<br>    <all attributes of AWS Migration Hub Refactor Spaces Service: https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_service><br>  }<br>]</pre> |
+| <a name="output_services"></a> [services](#output\_services) | Collection of AWS Migration Hub Refactor Spaces services and associated routes.  
+<br>
+<br>Example:<pre>services = [<br>  {<br>    "arn" = "arn:aws:refactor-spaces:us-east-1:99999999999:environment/env-ABC/application/app-XYZ/service/svc-XYZ"<br>    "name" = "legacy",<br>    description = "The legacy monolithic application entry point."<br>    routes = [<br>      {<br>        "arn" = "arn:aws:refactor-spaces:us-east-1:99999999999:environment/env-ABC/application/app-XYZ/route/rte-ABCD"<br>        "route_identifier" = "rte-ABCD"<br>        "route_type": "DEFAULT"<br>        ...<br>        <all attributes of AWS Migration Hub Refactor Spaces Route: https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_route><br>      }<br>    ]<br>    ...<br>    <all attributes of AWS Migration Hub Refactor Spaces Service: https://registry.terraform.io/providers/hashicorp/awscc/latest/docs/resources/refactorspaces_service><br>  }<br>]</pre> |
 <!-- END_TF_DOCS -->
