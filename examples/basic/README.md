@@ -11,14 +11,14 @@ As shown in the diagram, the solution in this example sets up the following:
 
 * A highly available architecture that spans two Availability Zones.*
 * In one virtual private cloud (VPC):
-    * Private subnets containing an AWS Transit Gateway attachment. Amazon API Gateway uses this attachment to communicate with workloads deployed in other AWS accounts/VPCs.*
-    * A Network Load Balancer, which uses the VPC link feature and distributes incoming traffic.*
+  * Private subnets containing an AWS Transit Gateway attachment. Amazon API Gateway uses this attachment to communicate with workloads deployed in other AWS accounts/VPCs.*
+  * A Network Load Balancer, which uses the VPC link feature and distributes incoming traffic.*
 * In the second VPC:
-    * Private subnets, which contain an Amazon Elastic Compute Cloud (Amazon EC2) instance that hosts the monolithic Unistore legacy application. Each subnet also contains an AWS Transit Gateway attachment, which is used to provide private connectivity between the API Gateway and the application hosted within the VPC.*
-    * An Application Load Balancer to forward traffic to the Amazon EC2 instances.*
+  * Private subnets, which contain an Amazon Elastic Compute Cloud (Amazon EC2) instance that hosts the monolithic Unistore legacy application. Each subnet also contains an AWS Transit Gateway attachment, which is used to provide private connectivity between the API Gateway and the application hosted within the VPC.*
+  * An Application Load Balancer to forward traffic to the Amazon EC2 instances.*
 * In the AWS Migration Hub's Refactor Spaces environment:
-    * AWS Transit Gateway, provisioned and managed by AWS Migration Hub's Refactor Spaces. If you choose to bring your own AWS Transit Gateway, this can be controlled using an optional input parameter.
-    * A Refactor Spaces application that manages Amazon API Gateway and two services: Default and AddtoCart. Default acts as the default route for traffic to the Unistore application. AddtoCart sends AddtoCart domain requests to the AWS Lambda function.
+  * AWS Transit Gateway, provisioned and managed by AWS Migration Hub's Refactor Spaces. If you choose to bring your own AWS Transit Gateway, this can be controlled using an optional input parameter.
+  * A Refactor Spaces application that manages Amazon API Gateway and two services: Default and AddtoCart. Default acts as the default route for traffic to the Unistore application. AddtoCart sends AddtoCart domain requests to the AWS Lambda function.
 * A Lambda function that holds the modernized AddToCart business logic strangled from the Unistore application.
 
 *The Terraform module that deploys this solution does not include the components marked by asterisks. These components, which you would provide as inputs, are depicted to illustrate a real-world deployment scenario.
@@ -39,7 +39,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_refactor_spaces"></a> [refactor\_spaces](#module\_refactor\_spaces) | aws-ia/refactorspaces/awscc | 0.1.0 |
+| <a name="module_refactor_spaces"></a> [refactor\_spaces](#module\_refactor\_spaces) | aws-ia/refactorspaces/awscc | 0.0.2 |
 | <a name="module_refactor_spaces_app_example_proxy_vpc"></a> [refactor\_spaces\_app\_example\_proxy\_vpc](#module\_refactor\_spaces\_app\_example\_proxy\_vpc) | aws-ia/vpc/aws | 3.1.0 |
 
 ## Resources
@@ -59,7 +59,7 @@ No resources.
 | <a name="input_display_name_monolith_server"></a> [display\_name\_monolith\_server](#input\_display\_name\_monolith\_server) | Display name for AWS Migration Hub Refactor Spaces service for the monolithic application. | `string` | `"legacy"` | no |
 | <a name="input_environment_description"></a> [environment\_description](#input\_environment\_description) | Description for AWS Migration Hub Refactor Spaces environment. | `string` | `"AWS Migration Hub Refactor Spaces environment for Unicorn Enterprises."` | no |
 | <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Name of AWS Migration Hub Refactor Spaces environment. | `string` | `"Unistore-Dev"` | no |
-| <a name="input_http_verbs_lambda_microservice"></a> [http\_verbs\_lambda\_microservice](#input\_http\_verbs\_lambda\_microservice) | List of HTTP methods AWS Migration Hub Refactor Spaces uses to match traffic destined for the new microservice. | `string` | <pre>[<br>  "POST",<br>  "GET"<br>]</pre> | no |
+| <a name="input_http_verbs_lambda_microservice"></a> [http\_verbs\_lambda\_microservice](#input\_http\_verbs\_lambda\_microservice) | List of HTTP methods AWS Migration Hub Refactor Spaces uses to match traffic destined for the new microservice. | `list(string)` | <pre>[<br>  "POST",<br>  "GET"<br>]</pre> | no |
 | <a name="input_lambda_arn_microservice"></a> [lambda\_arn\_microservice](#input\_lambda\_arn\_microservice) | ARN of Lambda function to use as AWS Migration Hub Refactor Spaces service to strangle a function of the monolith. | `string` | `"arn:aws:lambda:us-east-1:999999999999:function:AddToCart"` | no |
 | <a name="input_proxy_vpc_cidr_block"></a> [proxy\_vpc\_cidr\_block](#input\_proxy\_vpc\_cidr\_block) | A 24-bit IPv4 CIDR for Amazon VPC to host the link for AWS Refactor Spaces to access the monolithic application. | `string` | `"192.168.10.0/24"` | no |
 | <a name="input_proxy_vpc_name"></a> [proxy\_vpc\_name](#input\_proxy\_vpc\_name) | Name for Amazon VPC to host the link for AWS Refactor Spaces to access the monolithic application. | `string` | `"vpc-application-example-proxy"` | no |

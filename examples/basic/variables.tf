@@ -90,7 +90,7 @@ variable "source_path_lambda_microservice" {
 }
 
 variable "http_verbs_lambda_microservice" {
-  type        = string
+  type        = list(string)
   description = "List of HTTP methods AWS Migration Hub Refactor Spaces uses to match traffic destined for the new microservice."
   default     = ["POST", "GET"]
 }
