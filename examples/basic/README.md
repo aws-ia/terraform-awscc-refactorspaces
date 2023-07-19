@@ -39,7 +39,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_refactor_spaces"></a> [refactor\_spaces](#module\_refactor\_spaces) | aws-ia/refactorspaces/awscc | 0.1.0 |
+| <a name="module_refactor_spaces"></a> [refactor\_spaces](#module\_refactor\_spaces) | aws-ia/refactorspaces/awscc | 0.0.2 |
 | <a name="module_refactor_spaces_app_example_proxy_vpc"></a> [refactor\_spaces\_app\_example\_proxy\_vpc](#module\_refactor\_spaces\_app\_example\_proxy\_vpc) | aws-ia/vpc/aws | 3.1.0 |
 
 ## Resources

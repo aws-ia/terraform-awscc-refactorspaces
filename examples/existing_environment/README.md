@@ -24,7 +24,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_refactor_spaces_microservice_x"></a> [refactor\_spaces\_microservice\_x](#module\_refactor\_spaces\_microservice\_x) | aws-ia/refactorspaces/awscc | 0.1.0 |
+| <a name="module_refactor_spaces_microservice_x"></a> [refactor\_spaces\_microservice\_x](#module\_refactor\_spaces\_microservice\_x) | aws-ia/refactorspaces/awscc | 0.0.2 |
 
 ## Resources
 
