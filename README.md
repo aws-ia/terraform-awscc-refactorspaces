@@ -3,6 +3,7 @@
 
 ## Overview
 
+
 This Amazon Web Services (AWS) Solution is used to deploy [AWS Migration Hub Refactor Spaces](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/what-is-mhub-refactor-spaces.html) components in the AWS Cloud. For common deployment examples, refer to [examples/](https://github.com/aws-ia/terraform-awscc-refactorspaces/tree/main/examples). The solution is for users who want to deploy Refactor Spaces environments and modernize applications to microservices. Refactor Spaces helps reduce the undifferentiated heavy lifting of building and operating AWS infrastructure for incremental refactoring.
 
 For more information, refer to the [AWS Migration Hub Refactor Space documentation](https://docs.aws.amazon.com/migrationhub/index.html).
